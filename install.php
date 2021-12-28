@@ -34,7 +34,7 @@
 			`time_in` time NOT NULL,
 			`del_fingerid` tinyint(1) NOT NULL DEFAULT '0',
 			`add_fingerid` tinyint(1) NOT NULL DEFAULT '0'
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
 	if ($conn->query($sql) === TRUE) {
 	    echo "Table users created successfully";
@@ -50,7 +50,7 @@
 			`checkindate` date NOT NULL,
 			`timein` time NOT NULL,
 			`timeout` time NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=utf8";
+	) ENGINE=InnoDB DEFAULT CHARSET=latin1";
 
 	if ($conn->query($sql) === TRUE) {
 	    echo "Table users_logs created successfully";

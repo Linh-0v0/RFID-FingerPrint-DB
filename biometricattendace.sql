@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `qualified_covid`
+-- Database: `biometricattendace`
 --
 
 -- --------------------------------------------------------
@@ -69,7 +69,7 @@ CREATE TABLE `users` (
   `serialnumber` double NOT NULL DEFAULT '0',
   `gender` varchar(10) NOT NULL DEFAULT 'None',
   `email` varchar(50) NOT NULL DEFAULT 'None',
-  `card_uid` varchar(30) NOT NULL,
+  `fingerprint_id` varchar(30) NOT NULL,
   `card_select` tinyint(1) NOT NULL DEFAULT '0',
   `user_date` date NOT NULL,
   `device_uid` varchar(20) NOT NULL DEFAULT '0',
@@ -87,7 +87,7 @@ CREATE TABLE `users_logs` (
   `id` int(11) NOT NULL,
   `username` varchar(100) NOT NULL,
   `serialnumber` double NOT NULL,
-  `card_uid` varchar(30) NOT NULL,
+  `fingerprint_id` varchar(30) NOT NULL,
   `device_uid` varchar(20) NOT NULL,
   `device_dep` varchar(20) NOT NULL,
   `checkindate` date NOT NULL,

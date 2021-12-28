@@ -1,13 +1,10 @@
 <?php  
 //Connect to database
 require 'connectDB.php';
-date_default_timezone_set('Asia/Damascus');
-$d = date("Y-m-d");
-$t = date("H:i:sa");
 
-if (isset($_POST['FingerID'])) {
+if (isset($_GET['FingerID'])) {
     
-    $fingerID = $_POST['FingerID'];
+    $fingerID = $_GET['FingerID'];
 
     $sql = "SELECT * FROM users WHERE fingerprint_id=?";
     $result = mysqli_stmt_init($conn);
@@ -25,21 +22,21 @@ if (isset($_POST['FingerID'])) {
             if ($row['username'] != "Name"){
                 $Uname = $row['username'];
                 $Number = $row['serialnumber'];
-                $sql = "SELECT * FROM users_logs WHERE fingerprint_id=? AND checkindate=? AND timeout=''";
+                $sql = "SELECT * FROM users_logs WHERE fingerprint_id=? AND checkindate=CURDATE() AND timeout=''";
                 $result = mysqli_stmt_init($conn);
                 if (!mysqli_stmt_prepare($result, $sql)) {
                     echo "SQL_Error_Select_logs";
                     exit();
                 }
                 else{
-                    mysqli_stmt_bind_param($result, "ss", $fingerID, $d);
+                    mysqli_stmt_bind_param($result, "s", $fingerID);
                     mysqli_stmt_execute($result);
                     $resultl = mysqli_stmt_get_result($result);
                     //*****************************************************
                     //Login
                     if (!$row = mysqli_fetch_assoc($resultl)){
 
-                        $sql = "INSERT INTO users_logs (username, serialnumber, fingerprint_id, checkindate, timein, timeout) VALUES (? ,?, ?, ?, ?, ?)";
+                        $sql = "INSERT INTO users_logs (username, serialnumber, fingerprint_id, checkindate, timein, timeout) VALUES (? ,?, ?, CURDATE(), CURTIME(), ?)";
                         $result = mysqli_stmt_init($conn);
                         if (!mysqli_stmt_prepare($result, $sql)) {
                             echo "SQL_Error_Select_login1";
@@ -47,7 +44,7 @@ if (isset($_POST['FingerID'])) {
                         }
                         else{
                             $timeout = "0";
-                            mysqli_stmt_bind_param($result, "sdisss", $Uname, $Number, $fingerID, $d, $t, $timeout);
+                            mysqli_stmt_bind_param($result, "sdis", $Uname, $Number, $fingerID, $timeout);
                             mysqli_stmt_execute($result);
 
                             echo "login".$Uname;
@@ -57,14 +54,14 @@ if (isset($_POST['FingerID'])) {
                     //*****************************************************
                     //Logout
                     else{
-                        $sql="UPDATE users_logs SET timeout=? WHERE checkindate=? AND fingerprint_id=? AND timeout='0'";
+                        $sql="UPDATE users_logs SET timeout=CURTIME() WHERE fingerprint_id=? AND checkindate=CURDATE() AND timeout='0'";
                         $result = mysqli_stmt_init($conn);
                         if (!mysqli_stmt_prepare($result, $sql)) {
                             echo "SQL_Error_insert_logout1";
                             exit();
                         }
                         else{
-                            mysqli_stmt_bind_param($result, "ssi", $t, $d, $fingerID);
+                            mysqli_stmt_bind_param($result, "i", $fingerID);
                             mysqli_stmt_execute($result);
 
                             echo "logout".$Uname;
@@ -165,9 +162,9 @@ if (isset($_POST['FingerID'])) {
         }
     }
 }
-if (isset($_POST['Get_Fingerid'])) {
+if (isset($_GET['Get_Fingerid'])) {
     
-    if ($_POST['Get_Fingerid'] == "get_id") {
+    if ($_GET['Get_Fingerid'] == "get_id") {
         $sql= "SELECT fingerprint_id FROM users WHERE add_fingerid=1";
         $result = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($result, $sql)) {
@@ -191,9 +188,9 @@ if (isset($_POST['Get_Fingerid'])) {
         exit();
     }
 }
-if (!empty($_POST['confirm_id'])) {
+if (!empty($_GET['confirm_id'])) {
 
-    $fingerid = $_POST['confirm_id'];
+    $fingerid = $_GET['confirm_id'];
 
     $sql="UPDATE users SET fingerprint_select=0 WHERE fingerprint_select=1";
     $result = mysqli_stmt_init($conn);
@@ -218,9 +215,9 @@ if (!empty($_POST['confirm_id'])) {
         }
     }  
 }
-if (isset($_POST['DeleteID'])) {
+if (isset($_GET['DeleteID'])) {
 
-    if ($_POST['DeleteID'] == "check") {
+    if ($_GET['DeleteID'] == "check") {
         $sql = "SELECT fingerprint_id FROM users WHERE del_fingerid=1";
         $result = mysqli_stmt_init($conn);
         if (!mysqli_stmt_prepare($result, $sql)) {
