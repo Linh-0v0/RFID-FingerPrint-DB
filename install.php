@@ -25,7 +25,7 @@
 	$sql = "CREATE TABLE IF NOT EXISTS `users` (
 			`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			`username` varchar(100) NOT NULL,
-			`serialnumber` double NOT NULL,
+			`s_id` double NOT NULL,
 			`gender` varchar(10) NOT NULL,
 			`email` varchar(50) NOT NULL,
 			`fingerprint_id` int(11) NOT NULL,
@@ -34,7 +34,7 @@
 			`time_in` time NOT NULL,
 			`del_fingerid` tinyint(1) NOT NULL DEFAULT '0',
 			`add_fingerid` tinyint(1) NOT NULL DEFAULT '0'
-	) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
 	if ($conn->query($sql) === TRUE) {
 	    echo "Table users created successfully";
@@ -45,12 +45,12 @@
 	$sql = "CREATE TABLE IF NOT EXISTS `users_logs` (
 			`id` int(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 			`username` varchar(100) NOT NULL,
-			`serialnumber` double NOT NULL,
+			`s_id` double NOT NULL,
 			`fingerprint_id` int(5) NOT NULL,
 			`checkindate` date NOT NULL,
 			`timein` time NOT NULL,
 			`timeout` time NOT NULL
-	) ENGINE=InnoDB DEFAULT CHARSET=latin1";
+	) ENGINE=InnoDB DEFAULT CHARSET=utf8";
 
 	if ($conn->query($sql) === TRUE) {
 	    echo "Table users_logs created successfully";

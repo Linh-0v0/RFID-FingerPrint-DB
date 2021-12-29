@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `biometricattendace`
+-- Database: `qualified_covid`
 --
 
 -- --------------------------------------------------------
@@ -65,16 +65,19 @@ CREATE TABLE `devices` (
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `s_id` double NOT NULL DEFAULT '0',
   `username` varchar(30) NOT NULL DEFAULT 'None',
-  `serialnumber` double NOT NULL DEFAULT '0',
   `gender` varchar(10) NOT NULL DEFAULT 'None',
   `email` varchar(50) NOT NULL DEFAULT 'None',
-  `fingerprint_id` varchar(30) NOT NULL,
+  `card_uid` varchar(30) NOT NULL,
   `card_select` tinyint(1) NOT NULL DEFAULT '0',
+  `fingerprint_id` varchar(30) DEFAULT 'None',
+  `fingerprint_select` tinyint(1) DEFAULT '0',
   `user_date` date NOT NULL,
   `device_uid` varchar(20) NOT NULL DEFAULT '0',
   `device_dep` varchar(20) NOT NULL DEFAULT '0',
-  `add_card` tinyint(1) NOT NULL DEFAULT '0'
+  `add_card` tinyint(1) NOT NULL DEFAULT '0',
+  `add_fingerprint` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -85,15 +88,17 @@ CREATE TABLE `users` (
 
 CREATE TABLE `users_logs` (
   `id` int(11) NOT NULL,
+  `s_id` double NOT NULL,
   `username` varchar(100) NOT NULL,
-  `serialnumber` double NOT NULL,
-  `fingerprint_id` varchar(30) NOT NULL,
+  `card_uid` varchar(30) NOT NULL,
+  `fingerprint_id` varchar(30) DEFAULT 'None',
   `device_uid` varchar(20) NOT NULL,
   `device_dep` varchar(20) NOT NULL,
   `checkindate` date NOT NULL,
   `timein` time NOT NULL,
   `timeout` time NOT NULL,
-  `card_out` tinyint(1) NOT NULL DEFAULT '0'
+  `card_out` tinyint(1) NOT NULL DEFAULT '0',
+  `fingerprint_out` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
